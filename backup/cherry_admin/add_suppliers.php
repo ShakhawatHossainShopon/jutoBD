@@ -9,13 +9,11 @@ if ($_SERVER['REQUEST_METHOD']=='POST') {
 
   $stmt = $pdo->prepare('INSERT INTO suppliers (name,phone,website,des) VALUES (?,?,?,?)');
   if ($stmt->execute([$name, $phone, $website, $des])) {
-      $_SESSION['msg'] = "Supplier added successfully!";
-      $_SESSION['msg_type'] = "success";
+      $_SESSION['msg'] = "Supplier Added";
   } else {
-      $_SESSION['msg'] = "Failed to add supplier.";
-      $_SESSION['msg_type'] = "error";
+      $_SESSION['msg'] = "Error occurred!";
   }
-  header('Location: suppliers');
+  header('Location: suppliers.php');
   exit();
 }
 // Start output buffering

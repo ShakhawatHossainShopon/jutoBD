@@ -15,16 +15,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
     // Insert into database
     $stmt = $pdo->prepare("INSERT INTO categories (title, des, image) VALUES (?, ?, ?)");
-    if ($stmt->execute([$title, $des, $imagePath])) {
-        $_SESSION['msg'] = "Category added successfully!";
-        $_SESSION['msg_type'] = "success";
-    } else {
-        $_SESSION['msg'] = "Failed to add category.";
-        $_SESSION['msg_type'] = "error";
-    }
+    $stmt->execute([$title, $des, $imagePath]);
 
-    // Redirect
-    header("Location: categories");
+    // Redirect to suppliers page
+    header("Location: categories.php");
     exit;
 }
 

@@ -52,15 +52,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
     // Insert into database
     $stmt = $pdo->prepare("INSERT INTO products (uid, images, name, category_id, supplier_id, wholesale, price, size, description, colors, profit) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
-    if ($stmt->execute([$uid, $imagesJson, $name, $category_id, $supplier_id, $wholesale, $price, $size, $description, $colors, $profit])) {
-        $_SESSION['msg'] = "Product added successfully!";
-        $_SESSION['msg_type'] = "success";
-    } else {
-        $_SESSION['msg'] = "Failed to add product.";
-        $_SESSION['msg_type'] = "error";
-    }
+    $stmt->execute([$uid, $imagesJson, $name, $category_id, $supplier_id, $wholesale, $price, $size, $description, $colors, $profit]);
 
-    header("Location: products");
+    header("Location: products.php");
     exit;
 }
 
