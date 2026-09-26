@@ -150,7 +150,7 @@ function getApproxHex($colorName) {
                     <h3 class="font-sans text-[11px] font-bold text-[#4a362a] uppercase tracking-widest mb-3">Color</h3>
                     <div class="flex flex-wrap gap-3">
                         <?php foreach($colors as $idx => $color): ?>
-                            <button class="w-8 h-8 rounded-full border border-[#dcd6cb] relative group focus:outline-none <?= $idx === 0 ? 'ring-2 ring-offset-2 ring-[#4a362a]' : '' ?>" style="background-color: <?= getApproxHex($color) ?>;" title="<?= htmlspecialchars($color) ?>" onclick="document.querySelectorAll('.color-btn').forEach(b => b.classList.remove('ring-2', 'ring-offset-2', 'ring-[#4a362a]')); this.classList.add('ring-2', 'ring-offset-2', 'ring-[#4a362a]');">
+                            <button class="color-btn w-8 h-8 rounded-full border border-[#dcd6cb] relative group focus:outline-none <?= $idx === 0 ? 'ring-2 ring-offset-2 ring-[#4a362a]' : '' ?>" style="background-color: <?= getApproxHex($color) ?>;" title="<?= htmlspecialchars($color) ?>" onclick="document.querySelectorAll('.color-btn').forEach(b => b.classList.remove('ring-2', 'ring-offset-2', 'ring-[#4a362a]')); this.classList.add('ring-2', 'ring-offset-2', 'ring-[#4a362a]');">
                                 <span class="absolute -top-8 left-1/2 -translate-x-1/2 bg-[#222] text-white text-[10px] py-1 px-2 rounded opacity-0 group-hover:opacity-100 transition-opacity whitespace-nowrap pointer-events-none"><?= htmlspecialchars($color) ?></span>
                             </button>
                         <?php endforeach; ?>
@@ -167,7 +167,7 @@ function getApproxHex($colorName) {
                     </div>
                     <div class="flex flex-wrap gap-3">
                         <?php foreach($sizes as $idx => $size): ?>
-                            <button class="border border-[#e2dcd0] text-[#71685f] font-sans text-[13px] font-bold min-w-[3rem] px-3 py-2 hover:border-[#4a362a] hover:text-[#4a362a] transition-colors focus:outline-none <?= $idx === 0 ? 'bg-[#4a362a] text-white border-[#4a362a] hover:text-white' : 'bg-white' ?>" onclick="document.querySelectorAll('.size-btn').forEach(b => { b.classList.remove('bg-[#4a362a]', 'text-white', 'border-[#4a362a]'); b.classList.add('bg-white', 'text-[#71685f]', 'border-[#e2dcd0]'); }); this.classList.remove('bg-white', 'text-[#71685f]', 'border-[#e2dcd0]'); this.classList.add('bg-[#4a362a]', 'text-white', 'border-[#4a362a]');">
+                            <button class="size-btn border border-[#e2dcd0] text-[#71685f] font-sans text-[13px] font-bold min-w-[3rem] px-3 py-2 hover:border-[#4a362a] hover:text-[#4a362a] transition-colors focus:outline-none <?= $idx === 0 ? 'bg-[#4a362a] text-white border-[#4a362a] hover:text-white' : 'bg-white' ?>" onclick="document.querySelectorAll('.size-btn').forEach(b => { b.classList.remove('bg-[#4a362a]', 'text-white', 'border-[#4a362a]'); b.classList.add('bg-white', 'text-[#71685f]', 'border-[#e2dcd0]'); }); this.classList.remove('bg-white', 'text-[#71685f]', 'border-[#e2dcd0]'); this.classList.add('bg-[#4a362a]', 'text-white', 'border-[#4a362a]');">
                                 <?= htmlspecialchars($size) ?>
                             </button>
                         <?php endforeach; ?>

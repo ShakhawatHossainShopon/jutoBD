@@ -102,7 +102,12 @@ if (!empty($_SESSION["cart"])) {
         $img_url = (is_array($images) && count($images) > 0) ? $images[0] : "https://placehold.co/100x100/f8f8f8/cccccc";
         $img_url = str_replace("\\/", "/", $img_url);
         
-        $item_total = $p["price"] * $qty;
+        $active_price = $p["price"];
+        if (!empty($p["discount_percent"])) {
+            $active_price = $active_price - ($active_price * ($p["discount_percent"] / 100));
+        }
+        
+        $item_total = $active_price * $qty;
         $subtotal += $item_total;
         $count += $qty;
         

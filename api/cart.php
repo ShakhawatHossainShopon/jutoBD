@@ -77,11 +77,11 @@ if ($action === 'fetch') {
                 'id' => $p['id'],
                 'name' => $p['name'],
                 'price' => $active_price,
-                'price_fmt' => "?" . number_format($active_price, 2),
+                'price_fmt' => "\u{09F3}" . number_format($active_price, 2),
                 'qty' => $qty,
                 'image' => $img_url,
                 'subtotal' => $subtotal,
-                'subtotal_fmt' => "?" . number_format($subtotal, 2)
+                'subtotal_fmt' => "\u{09F3}" . number_format($subtotal, 2)
             ];
         }
     }
@@ -89,7 +89,7 @@ if ($action === 'fetch') {
     echo json_encode([
         'items' => $cart,
         'total' => $total,
-        'total_fmt' => "?" . number_format($total, 2),
+        'total_fmt' => "\u{09F3}" . number_format($total, 2),
         'count' => $count
     ]);
     exit;
