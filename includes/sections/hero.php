@@ -26,10 +26,10 @@
             </p>
             
             <div class="flex flex-col sm:flex-row gap-0 sm:gap-4">
-                <a href="shop.php" class="font-serif bg-[#463427] border border-[#463427] text-white px-9 py-[14px] text-[11px] font-semibold tracking-[0.2em] transition-colors hover:bg-[#2c2018] flex items-center justify-center">
+                <a href="category.php" class="font-serif bg-[#463427] border border-[#463427] text-white px-9 py-[14px] text-[11px] font-semibold tracking-[0.2em] transition-colors hover:bg-[#2c2018] flex items-center justify-center">
                     SHOP COLLECTION <span class="ml-4 font-medium text-[16px] leading-none font-sans">&rarr;</span>
                 </a>
-                <a href="about.php" class="font-serif bg-transparent border border-[#d1c8bb] text-[#463427] px-9 py-[14px] text-[11px] font-semibold tracking-[0.2em] transition-colors hover:bg-[#e8e3d9] flex items-center justify-center mt-3 sm:mt-0">
+                <a href="best-seller.php" class="font-serif bg-transparent border border-[#d1c8bb] text-[#463427] px-9 py-[14px] text-[11px] font-semibold tracking-[0.2em] transition-colors hover:bg-[#e8e3d9] flex items-center justify-center mt-3 sm:mt-0">
                     DISCOVER JUTO <span class="ml-4 font-medium text-[16px] leading-none font-sans">&rarr;</span>
                 </a>
             </div>

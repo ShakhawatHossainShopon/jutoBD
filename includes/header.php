@@ -98,7 +98,7 @@ $featured_img = (!empty($featured_cat) && !empty($featured_cat['image'])) ? $fea
                     <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-[24px] h-[24px]">
                       <path stroke-linecap="round" stroke-linejoin="round" d="M15.75 10.5V6a3.75 3.75 0 10-7.5 0v4.5m11.356-1.993l1.263 12c.07.665-.45 1.243-1.119 1.243H4.25a1.125 1.125 0 01-1.12-1.243l1.264-12A1.125 1.125 0 015.513 7.5h12.974c.576 0 1.059.435 1.119 1.007zM8.625 10.5a.375.375 0 11-.75 0 .375.375 0 01.75 0zm7.5 0a.375.375 0 11-.75 0 .375.375 0 01.75 0z" />
                     </svg>
-                    <span class="absolute -top-1.5 -right-2.5 bg-[#4d3c31] text-white text-[10px] font-bold w-5 h-5 rounded-full flex items-center justify-center border-2 border-white shadow-sm transition-transform duration-300 group-hover:scale-110">
+                    <span id="nav-cart-count" class="absolute -top-1.5 -right-2.5 bg-[#4d3c31] text-white text-[10px] font-bold w-5 h-5 rounded-full flex items-center justify-center border-2 border-white shadow-sm transition-transform duration-300 group-hover:scale-110">
                         0
                     </span>
                 </button>
@@ -172,20 +172,7 @@ $featured_img = (!empty($featured_cat) && !empty($featured_cat['image'])) ? $fea
         </button>
     </div>
 
-    <!-- Drawer Body (Empty State for now) -->
-    <div class="flex-grow flex flex-col items-center justify-center p-8 text-center bg-[url('https://www.transparenttextures.com/patterns/cream-paper.png')]">
-        <div class="w-24 h-24 bg-white rounded-full flex items-center justify-center mb-6 text-[#a3998f] shadow-sm border border-[#f4f2eb] transform transition-transform duration-700 hover:-translate-y-2">
-            <i class="fa-solid fa-bag-shopping text-4xl"></i>
-        </div>
-        <h4 class="font-serif text-2xl text-slate-800 mb-2">Your cart is empty</h4>
-        <p class="text-slate-500 text-[14px] mb-8 max-w-[250px]">Looks like you haven't added any premium leather goods to your cart yet.</p>
-        <button onclick="toggleCartDrawer()" class="bg-[#473121] text-white px-10 py-4 text-[12px] font-bold tracking-[0.15em] hover:bg-[#2c2521] transition-all duration-300 shadow-lg hover:shadow-xl transform hover:-translate-y-1 w-full max-w-[280px]">
-            CONTINUE SHOPPING
-        </button>
-    </div>
-</div>
-
-<script>
+    <div id="cart-drawer-body" class="flex-grow flex flex-col relative overflow-y-auto bg-[#fefdfc]"></div></div><script>
     // 1. Shrinking Navbar on Scroll
     window.addEventListener('scroll', () => {
         const header = document.getElementById('main-header');
@@ -276,3 +263,4 @@ $featured_img = (!empty($featured_cat) && !empty($featured_cat['image'])) ? $fea
         }
     }
 </script>
+

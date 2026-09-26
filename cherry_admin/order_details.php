@@ -1,4 +1,4 @@
-<?php
+﻿<?php
 include "../config/config.php";
 $title = "Order Details - Invoice";
 
@@ -19,7 +19,7 @@ if (!$order) {
 }
 
 // Fetch items
-$itemStmt = $pdo->prepare("SELECT oi.*, p.name AS product_name, p.uid AS product_uid FROM order_items oi JOIN products p ON oi.product_id = p.id WHERE oi.order_id = ?");
+$itemStmt = $pdo->prepare("SELECT oi.*, p.name AS product_name, p.uid AS product_uid, p.images AS product_images FROM order_items oi JOIN products p ON oi.product_id = p.id WHERE oi.order_id = ?");
 $itemStmt->execute([$id]);
 $items = $itemStmt->fetchAll(PDO::FETCH_ASSOC);
 
@@ -99,9 +99,13 @@ ob_start();
                         <tr class="hover:bg-slate-50/50 transition-colors">
                             <td class="px-6 py-4">
                                 <div class="flex items-center gap-3">
-                                    <div class="w-10 h-10 rounded-lg bg-slate-100 text-slate-400 flex items-center justify-center shrink-0">
-                                        <i class="fa-solid fa-box text-sm"></i>
-                                    </div>
+                                    <?php 
+    $imgs = json_decode($item["product_images"], true);
+    $img = (!empty($imgs) && is_array($imgs)) ? str_replace("\/", "/", $imgs[0]) : "https://placehold.co/100x100";
+    ?>
+    <div class="w-10 h-10 rounded-lg bg-slate-100 overflow-hidden shrink-0 border border-slate-200">
+        <img src="<?= htmlspecialchars($img) ?>" class="w-full h-full object-cover mix-blend-multiply">
+    </div>
                                     <div>
                                         <p class="font-bold text-slate-800 text-[14px]"><?= htmlspecialchars($item['product_name']) ?></p>
                                         <p class="text-[11px] bg-slate-100 text-slate-500 font-bold px-2 py-0.5 rounded-md uppercase tracking-widest mt-1 inline-block">UID: <?= $item['product_uid'] ?></p>
@@ -214,3 +218,4 @@ ob_start();
 $content = ob_get_clean();
 include 'layout.php';
 ?>
+

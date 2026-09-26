@@ -1,4 +1,4 @@
-<?php
+﻿<?php
 if (!isset($pdo)) {
     require_once __DIR__ . '/../../config/config.php';
 }
@@ -32,7 +32,7 @@ try {
                 
                 $price_formatted = "৳" . number_format($product['price'], 2);
             ?>
-                <div class="group cursor-pointer flex flex-col">
+                <a href="product.php?id=<?= $product['id'] ?>" class="group cursor-pointer flex flex-col">
                     
                     <!-- Image Box -->
                     <div class="relative w-full aspect-[4/5] bg-[#f8f8f8] mb-4 sm:mb-5 overflow-hidden flex items-center justify-center">
@@ -45,7 +45,7 @@ try {
                         
                         <!-- Add to Cart Button (Always visible on mobile, hover on desktop) -->
                         <div class="absolute bottom-3 left-3 right-3 sm:bottom-5 sm:left-5 sm:right-5 z-10 opacity-100 translate-y-0 lg:opacity-0 lg:group-hover:opacity-100 transition-all duration-300 lg:translate-y-2 lg:group-hover:translate-y-0">
-                            <button class="w-full font-serif bg-[#4d3c31]/90 lg:bg-[#4d3c31] text-white py-2.5 sm:py-3.5 text-[9px] sm:text-[11px] font-semibold tracking-[0.1em] sm:tracking-[0.15em] transition-colors hover:bg-[#382b22] flex items-center justify-center shadow-md hover:shadow-lg">
+                            <button onclick="event.preventDefault(); event.stopPropagation(); addToCart(<?= $product['id'] ?>);" class="w-full font-serif bg-[#4d3c31]/90 lg:bg-[#4d3c31] text-white py-2.5 sm:py-3.5 text-[9px] sm:text-[11px] font-semibold tracking-[0.1em] sm:tracking-[0.15em] transition-colors hover:bg-[#382b22] flex items-center justify-center shadow-md hover:shadow-lg">
                                 <span class="hidden sm:inline">ADD TO CART</span>
                                 <span class="sm:hidden">ADD</span>
                                 <span class="ml-1.5 sm:ml-3 font-sans font-light text-[12px] sm:text-[14px] leading-none">&rarr;</span>
@@ -62,7 +62,7 @@ try {
                         </div>
                     </div>
                     
-                </div>
+                </a>
             <?php endforeach; ?>
         </div>
 
@@ -75,3 +75,11 @@ try {
         
     </div>
 </section>
+
+
+
+
+
+
+
+

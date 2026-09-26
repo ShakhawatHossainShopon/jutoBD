@@ -67,7 +67,7 @@ $currentPage = basename($_SERVER['PHP_SELF'], ".php");
             <div class="w-10 h-10 rounded-xl bg-gradient-to-br from-brand-500 to-emerald-400 flex items-center justify-center shadow-lg shadow-brand-500/30 text-white">
                 <i class="fa-solid fa-store text-lg"></i>
             </div>
-            <h1 class="ml-3 text-xl font-bold tracking-tight text-slate-800">Zello<span class="text-brand-500">Market</span></h1>
+            <h1 class="ml-3 text-xl font-bold tracking-tight text-slate-800">JUTO<span class="text-brand-500">BD</span></h1>
         </div>
         
         <div class="flex-1 overflow-y-auto py-6 px-4 space-y-1 custom-scrollbar">
@@ -78,6 +78,7 @@ $currentPage = basename($_SERVER['PHP_SELF'], ".php");
                 'products' => ['Products', 'fa-box-open'],
                 'categories' => ['Categories', 'fa-layer-group'],
                 'suppliers' => ['Suppliers', 'fa-truck-field'],
+                'discounts' => ['Discounts', 'fa-percent'],
             ];
             $navItems2 = [
                 'order_board' => ['Orders Board', 'fa-clipboard-list'],

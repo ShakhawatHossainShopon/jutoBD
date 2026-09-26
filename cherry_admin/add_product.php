@@ -26,7 +26,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
     // handle multiple image uploads
     $images = [];
-    $maxSize = 100 * 1024; // 100 KB in bytes
+    $maxSize = 1 * 1024 * 1024; // 1 MB in bytes
     if (!empty($_FILES['image']['name'][0])) {
         foreach ($_FILES['image']['tmp_name'] as $key => $tmpName) {
             $fileSize = $_FILES['image']['size'][$key];

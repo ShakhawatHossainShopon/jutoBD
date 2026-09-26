@@ -2,21 +2,38 @@
 require_once __DIR__ . '/config/config.php';
 
 try {
-    // Fetch latest 20 products only
     $stmt = $pdo->prepare("
         SELECT p.id, p.name, p.price, p.images, p.created_at, p.colors, p.size, c.title as category_name,
-               COALESCE(SUM(o.quantity), 0) as total_sold
+               d.discount_percent, d.end_date,
+               COALESCE((
+                   SELECT SUM(oi.quantity) 
+                   FROM order_items oi 
+                   JOIN orders o ON oi.order_id = o.id 
+                   WHERE oi.product_id = p.id AND o.status != 'cancelled'
+               ), 0) as total_sold
         FROM products p
+        JOIN discounts d ON p.id = d.product_id
         LEFT JOIN categories c ON p.category_id = c.id
-        LEFT JOIN orders o ON p.id = o.product_id
-        GROUP BY p.id
+        WHERE d.end_date > NOW()
         ORDER BY p.created_at DESC
-        LIMIT 20
     ");
     $stmt->execute();
     $all_products = $stmt->fetchAll(PDO::FETCH_ASSOC);
+    
+    $soonest_end_date = null;
+    if (!empty($all_products)) {
+        $min_time = null;
+        foreach ($all_products as $p) {
+            $t = strtotime($p['end_date']);
+            if ($min_time === null || $t < $min_time) {
+                $min_time = $t;
+                $soonest_end_date = $p['end_date'];
+            }
+        }
+    }
 } catch (PDOException $e) {
     $all_products = [];
+    $soonest_end_date = null;
 }
 ?>
 <!DOCTYPE html>
@@ -197,21 +214,21 @@ try {
                                 $img_url = str_replace('\\/', '/', $img_url);
                                 
                                 // Discount Math
-                                $discount_pct = 30; // 30% discount
+                                $discount_pct = isset($product['discount_percent']) ? (float)$product['discount_percent'] : 30;
                                 $old_price = $product['price'];
                                 $save_amount = $old_price * ($discount_pct / 100);
                                 $new_price = $old_price - $save_amount;
                                 
-                                $old_price_fmt = "$" . number_format($old_price, 2);
-                                $new_price_fmt = "$" . number_format($new_price, 2);
-                                $save_fmt = "$" . floor($save_amount);
+                                $old_price_fmt = "৳" . number_format($old_price, 2);
+                                $new_price_fmt = "৳" . number_format($new_price, 2);
+                                $save_fmt = "৳" . floor($save_amount);
                                 
                                 // Dynamic stats
                                 $bought = (int)$product['total_sold'];
                                 if($bought < 3) $bought = rand(5, 24); // Fake it if too low for the "last 24 hrs" effect
                                 $left = rand(4, 18); // Fake stock left
                             ?>
-                                <div class="group flex flex-col bg-white">
+                                <a href="product.php?id=<?= $product['id'] ?>" class="group flex flex-col bg-white">
                                      
                                     <!-- Image Box -->
                                     <div class="relative w-full aspect-[4/5] bg-[#f8f8f8] overflow-hidden flex items-center justify-center">
@@ -223,11 +240,7 @@ try {
                                         </div>
 
                                         <!-- Top Right Tag (Speech Bubble) -->
-                                        <div class="absolute top-3 right-3 bg-white text-[#4d3c31] text-[10px] sm:text-[11px] font-medium px-2 py-1 shadow-sm z-10">
-                                            <?= $left ?> Left
-                                            <!-- Little triangle pointing down -->
-                                            <div class="absolute -bottom-[5px] left-1/2 transform -translate-x-1/2 w-0 h-0 border-l-[5px] border-r-[5px] border-t-[5px] border-l-transparent border-r-transparent border-t-white"></div>
-                                        </div>
+                     
 
                                         <img src="<?= htmlspecialchars($img_url) ?>" alt="<?= htmlspecialchars($product['name']) ?>" class="w-full h-full object-cover mix-blend-multiply">
                                     </div>
@@ -251,7 +264,7 @@ try {
                                             <i class="fa-solid fa-bullhorn text-[11px]"></i> <?= $bought ?> people bought... last 24 hrs
                                         </div>
                                     </div>
-                                </div>
+                                </a>
                             <?php endforeach; ?>
                         <?php endif; ?>
                     </div>
@@ -277,9 +290,8 @@ try {
 
         // Real-time Countdown Timer Logic
         document.addEventListener('DOMContentLoaded', () => {
-            // Set end date to 3 days from now for demo purposes
-            const countDownDate = new Date();
-            countDownDate.setDate(countDownDate.getDate() + 3); 
+            // Set end date from database
+            const countDownDate = <?= $soonest_end_date ? 'new Date("'.$soonest_end_date.'").getTime()' : '0' ?>;
 
             const timer = setInterval(function() {
                 const now = new Date().getTime();

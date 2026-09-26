@@ -4,10 +4,14 @@ require_once __DIR__ . '/config/config.php';
 try {
     $stmt = $pdo->prepare("
         SELECT p.id, p.name, p.price, p.images, p.created_at, p.colors, p.size, c.title as category_name,
-               COALESCE(SUM(o.quantity), 0) as total_sold
+               COALESCE((
+                   SELECT SUM(oi.quantity) 
+                   FROM order_items oi 
+                   JOIN orders o ON oi.order_id = o.id 
+                   WHERE oi.product_id = p.id AND o.status != 'cancelled'
+               ), 0) as total_sold
         FROM products p
         LEFT JOIN categories c ON p.category_id = c.id
-        LEFT JOIN orders o ON p.id = o.product_id
         GROUP BY p.id
         ORDER BY total_sold DESC, p.created_at DESC
         LIMIT 20
@@ -141,7 +145,7 @@ try {
                                 $p_cat = $product['category_name'] ?? '';
                                 $p_cols = $product['colors'] ?? '';
                             ?>
-                                <div class="product-card group cursor-pointer flex flex-col bg-white border border-[#f0f0f0] p-3 shadow-[0_2px_10px_rgba(0,0,0,0.02)] hover:shadow-[0_8px_20px_rgba(0,0,0,0.06)] transition-all duration-300">
+                                <a href="product.php?id=<?= $product['id'] ?>" class="product-card block group cursor-pointer flex flex-col bg-white border border-[#f0f0f0] p-3 shadow-[0_2px_10px_rgba(0,0,0,0.02)] hover:shadow-[0_8px_20px_rgba(0,0,0,0.06)] transition-all duration-300">
                                      
                                     <!-- Image Box -->
                                     <div class="relative w-full aspect-[4/5] bg-[#f8f8f8] mb-4 overflow-hidden flex items-center justify-center">
@@ -151,7 +155,7 @@ try {
                                             <span class="bg-[#d4af37] text-white text-[8px] sm:text-[9px] font-bold tracking-widest uppercase px-2 py-1 shadow-sm border border-[#d4af37]">BEST SELLER</span>
                                         </div>
 
-                                        <button class="absolute top-2 right-2 w-7 h-7 sm:w-8 sm:h-8 bg-white rounded-full flex items-center justify-center text-[#71685f] hover:text-[#4d3c31] transition-all duration-300 shadow-sm z-10">
+                                        <button onclick="event.preventDefault();" class="absolute top-2 right-2 w-7 h-7 sm:w-8 sm:h-8 bg-white rounded-full flex items-center justify-center text-[#71685f] hover:text-[#4d3c31] transition-all duration-300 shadow-sm z-10">
                                             <i class="fa-regular fa-heart text-[12px] sm:text-[14px]"></i>
                                         </button>
 
@@ -159,7 +163,7 @@ try {
                                         
                                         <!-- Hover Cart overlay -->
                                         <div class="absolute inset-0 bg-black/5 opacity-0 lg:group-hover:opacity-100 transition-opacity duration-300 flex items-end justify-center pb-6 z-10 pointer-events-none">
-                                            <button class="bg-[#4d3c31]/90 lg:bg-[#4d3c31] text-white px-8 py-3 text-[10px] font-bold tracking-[0.15em] flex items-center shadow-lg pointer-events-auto transform translate-y-4 lg:group-hover:translate-y-0 transition-transform duration-300">
+                                            <button onclick="event.preventDefault(); event.stopPropagation(); addToCart(<?= $product['id'] ?>);" class="bg-[#4d3c31]/90 lg:bg-[#4d3c31] text-white px-8 py-3 text-[10px] font-bold tracking-[0.15em] flex items-center shadow-lg pointer-events-auto transform translate-y-4 lg:group-hover:translate-y-0 transition-transform duration-300">
                                                 ADD TO CART <span class="ml-2">&rarr;</span>
                                             </button>
                                         </div>
@@ -181,9 +185,7 @@ try {
                                         <!-- Promo Tag -->
                                         <div class="w-full bg-[#f6f5f0] text-[#71685f] text-[9px] sm:text-[10px] py-1.5 flex justify-center items-center gap-1 border border-[#e5e0d4] mt-auto">
                                             <i class="fa-solid fa-fire text-[#d4af37] text-[8px]"></i> Trending highly this week
-                                        </div>
-                                    </div>
-                                </div>
+                                        </div></div></a>
                             <?php endforeach; ?>
                         <?php endif; ?>
                     </div>
@@ -209,3 +211,11 @@ try {
     </script>
 </body>
 </html>
+
+
+
+
+
+
+
+
